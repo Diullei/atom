@@ -45,7 +45,7 @@ class BufferedProcess
     # Related to joyent/node#2318
     if process.platform is "win32"
       # Quote all arguments and escapes inner quotes
-      cmdArgs = args.map (arg) -> "\"#{arg.replace(/"/g, '\\"')}\""
+      cmdArgs = args.map (arg) -> "\"#{(arg + '').replace(/"/g, '\\"')}\""
       cmdArgs.unshift("\"#{command}\"")
       cmdArgs = ['/s', '/c', "\"#{cmdArgs.join(' ')}\""]
       cmdOptions = _.clone(options)
