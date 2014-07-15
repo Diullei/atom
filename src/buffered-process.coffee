@@ -45,7 +45,16 @@ class BufferedProcess
     # Related to joyent/node#2318
     if process.platform is "win32"
       # Quote all arguments and escapes inner quotes
-      cmdArgs = args.map (arg) -> "\"#{(arg + '').replace(/"/g, '\\"')}\""
+      if args?
+        cmdArgs = args.map (arg) ->
+          if command in ['explorer.exe', 'explorer'] and /^\/[a-zA-Z]+,.*$/.test(arg)
+            # Don't wrap /root,C:\folder style arguments to explorer calls in
+            # quotes since they will not be interpreted correctly if they are
+            arg
+          else
+            "\"#{(arg + '').replace(/"/g, '\\"')}\""
+      else
+        cmdArgs = []
       cmdArgs.unshift("\"#{command}\"")
       cmdArgs = ['/s', '/c', "\"#{cmdArgs.join(' ')}\""]
       cmdOptions = _.clone(options)

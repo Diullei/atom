@@ -189,7 +189,7 @@ LinesComponent = React.createClass
     lineIsWhitespaceOnly = firstTrailingWhitespacePosition is 0
     for token in tokens
       innerHTML += @updateScopeStack(scopeStack, token.scopes)
-      hasIndentGuide = not mini and showIndentGuide and token.hasLeadingWhitespace or (token.hasTrailingWhitespace and lineIsWhitespaceOnly)
+      hasIndentGuide = not mini and showIndentGuide and (token.hasLeadingWhitespace or (token.hasTrailingWhitespace and lineIsWhitespaceOnly))
       innerHTML += token.getValueAsHtml({invisibles, hasIndentGuide})
 
     innerHTML += @popScope(scopeStack) while scopeStack.length > 0
@@ -258,7 +258,7 @@ LinesComponent = React.createClass
       @lineIdsByScreenRow[screenRow] = line.id
 
   hasDecoration: (decorations, decoration) ->
-    decorations? and decorations[decoration.id] == decoration
+    decorations? and decorations[decoration.id] is decoration
 
   lineNodeForScreenRow: (screenRow) ->
     @lineNodesByLineId[@lineIdsByScreenRow[screenRow]]

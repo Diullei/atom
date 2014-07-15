@@ -41,6 +41,7 @@ GutterComponent = React.createClass
 
   componentDidMount: ->
     @appendDummyLineNumber()
+    @updateLineNumbers() if @props.renderedRowRange?
 
   # Only update the gutter if the visible row range has changed or if a
   # non-zero-delta change to the screen lines has occurred within the current
@@ -203,7 +204,7 @@ GutterComponent = React.createClass
       @lineNumberIdsByScreenRow[screenRow] = lineNumberId
 
   hasDecoration: (decorations, decoration) ->
-    decorations? and decorations[decoration.id] == decoration
+    decorations? and decorations[decoration.id] is decoration
 
   hasLineNumberNode: (lineNumberId) ->
     @lineNumberNodesById.hasOwnProperty(lineNumberId)
